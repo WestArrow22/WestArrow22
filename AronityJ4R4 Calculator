@@ -1,0 +1,165 @@
+import tkinter as tk   # Das tkinter Modul wird verwendet.  Dies ist eine Phyton-Bibliotheke welche fürs Erstellen von grafischen Benutzeroberflächen (GUIs) 
+import math
+
+# Fähighkeit zur Eingabe einer Zahl, welche die Rechnung startet.
+def button_click(number):
+    current = entry.get() # Abrufen des Wertes im Eingabefeld. 
+    entry.delete(0, tk.END) # löscht einen Bereich von Zeichen im Textfeld
+    entry.insert(0, current + str(number)) # Möglichkeit eine Rechnung mit der vorhin eingegebenen Zahl auszuführen.
+    
+# Sobald die Eingabetaste "C" gedrückt wird, wird die Eingabe gelöscht. 
+def clear():
+    entry.delete(0, tk.END)
+
+# Rechnet mit den beliebigen Operatoren die man zur Auswahl hat. 
+def calculate():
+    try:
+        expression = entry.get()
+        result = eval(expression)
+        result_rounded = round(result, 2) #  Ein auf zwei Stellen gerundetes Resultat wird ausgegeben.
+        entry.delete(0, tk.END)
+        entry.insert(0, result_rounded)  
+    except Exception:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error") # Eine nicht mathematische korrekte Rechnung wird aussortiert und ergibt "Error".
+        
+# Definition von dem Operator Fakultät "!".      
+def calculate_factorial():
+    try:
+        expression = entry.get()
+        result = math.factorial(int(eval(expression))) # Berechnet die Aufgabe der Fakultät.   
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except Exception:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+        
+   # Definition des Wurzel-Knopfs. 
+def calculate_square_root():
+    try:
+        expression = entry.get()
+        result = math.sqrt(eval(expression)) # Berechnet die Aufgabe der Wurzel. 
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except Exception:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+        
+# Definition des Pi-Buttons.
+def pi_button():
+    current = entry.get()
+    entry.delete(0, tk.END)
+    pi_rounded = round(math.pi, 3) # Rundet das Resultat auf 3 Stellen nach dem Komma. 
+    entry.insert(0, current + str(pi_rounded))
+ 
+ # Definition des Sinus-Operator (Trigonometrie). 
+def calculate_sin():
+    try:
+        angle = float(angle_entry.get()) # Diese Funktion konvertiert den Winkel von Grad in Bogenmaß (Radiant).
+        result = math.sin(math.radians(angle)) # Diese Funktion berechnet den Sinus eines Winkels.
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except ValueError:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+
+# Definition des Cosinus-Operator (Trigonometrie). 
+def calculate_cos():
+    try:
+        angle = float(angle_entry.get())
+        result = math.cos(math.radians(angle))  # Diese Funktion berechnet den Cosinus eines Winkels.
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except ValueError:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+        
+# Definition des Tangens-Operators
+def calculate_tan():
+    try:
+        angle = float(angle_entry.get())
+        result = math.tan(math.radians(angle)) # Diese Funktion berechnet den Tangens eines Winkels
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except ValueError:
+        entry.delete(0, tk.END)
+        entry.insert(0, "Error")
+    
+# Erstelle das Hauptfenster
+root = tk.Tk()
+root.title("Aronity J4R4")
+root.configure(bg="#f0f0f0")  # Hintergrundfarbe
+
+# Eingabefeld
+entry = tk.Entry(root, font=("Haettenschweiler", 20)) # Schriftart und Schriftgrösse wird festgelegt.
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10) # Bestimmt die Position des Knopfes auf der Benutzeroberfläche.
+
+# Winkel-Eingabefeld
+angle_entry = tk.Entry(root, font=("Haettenschweiler", 20))
+angle_entry.grid(row=6, column=0, columnspan=4, padx=10, pady=10)
+
+# Knöpfe mit größeren Abmessungen
+button_width = 5 # Legt die Breite der Knöpfe fest. 
+button_height = 2 # Legt die Höhe der Knöpfe fest.
+
+# Die Zahlen-/ Rechenopperationsknöpfe werden in ihre richtige Reihenfolge und Position gebracht.
+buttons = [
+    ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),  
+    ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3), 
+    ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3), 
+    ("0", 4, 0), (".", 4, 1), ("+", 4, 3),
+]
+
+# Command ist der allgemeine Befehl um die Beliebige Aktion auszuführen. # Lambda ist eine gängige Methode, um Funktionen an Ereignisse wie das Klicken eines Buttons zu binden.
+
+for (text, row, col) in buttons: 
+    button = tk.Button(root, text=text, font=("Haettenschweiler", 20), command=lambda t=text: button_click(t), bg="#d3d3d3", #Farbe der Knöpfe.
+                       width=button_width, height=button_height)
+    button.grid(row=row, column=col, padx=5, pady=5)
+
+# Löschen-Knopf 
+clear_button = tk.Button(root, text="C", font=("Haettenschweiler", 20), command=clear, bg="#ff9999",
+                         width=button_width, height=button_height)
+clear_button.grid(row=1, column=6, columnspan=2, padx=5, pady=5)
+
+# Berechnen-Knopf
+calculate_button = tk.Button(root, text="=", font=("Haettenschweiler", 20), command=calculate, bg="#99ff99",
+                             width=button_width, height=button_height)
+calculate_button.grid(row=6, column=3, columnspan=2, padx=5, pady=5)
+
+# Wurzel-Knopf
+sqrt_button = tk.Button(root, text="√", font=("Helvetica", 16), command=calculate_square_root, bg="#99ccff",
+                        width=button_width, height=button_height)
+sqrt_button.grid(row=4, column=6, padx=5, pady=5)
+
+# Fakultät-Knopf
+factorial_button = tk.Button(root, text="!", font=("Helvetica", 16), command=calculate_factorial, bg="#ffcc99",
+                             width=button_width, height=button_height)
+factorial_button.grid(row=3, column=6, padx=5, pady=5)
+
+# Quadrat-Knopf
+square_button = tk.Button(root, text="x²", font=("Helvetica", 16), command=lambda: button_click("**2"), bg="#cc99ff",
+                          width=button_width, height=button_height)
+square_button.grid(row=2, column=6, padx=5, pady=5)
+
+# pi-Knopf
+pi_button = tk.Button(root, text="π", font=("Helvetica", 16), command=pi_button, bg="#FFD700",
+                      width=button_width, height=button_height)
+pi_button.grid(row=4, column=2, padx=5, pady=5)
+
+# Sinus-Knopf
+calculate_sin_button = tk.Button(root, text="SIN", font=("Helvetica", 16), command=calculate_sin, bg="#D93C3D",
+                                 width=button_width, height=button_height)
+calculate_sin_button.grid(row=7, column=0, padx=5, pady=5)
+
+# Cosinus-Knopf
+calculate_cos_button = tk.Button(root, text="COS", font=("Helvetica", 16), command=calculate_cos, bg="#4D46F0",
+                                 width=button_width, height=button_height)
+calculate_cos_button.grid(row=7, column=1, padx=5, pady=5)
+
+# Tangens-Knopf
+calculate_tan_button = tk.Button(root, text="TAN", font=("Helvetica", 16), command=calculate_tan, bg="#7AB562",
+                                 width=button_width, height=button_height)
+calculate_tan_button.grid(row=7, column=2, padx=5, pady=5)
+
+root.mainloop() # Ist eine Endlosschleife, die immer wieder die Ausführung des Taschenrechners ermöglicht. 
